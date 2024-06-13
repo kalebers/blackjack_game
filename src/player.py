@@ -1,4 +1,4 @@
-from hand import Hand
+from src.hand import Hand
 
 class Player:
     """Represents a player in the Black Jack game."""
