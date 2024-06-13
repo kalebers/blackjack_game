@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QPushButton, QLabel, QWidget
-from src.game import BlackJackGame
-from src.player import Player
+from game import BlackJackGame
+from player import Player
 
 class BlackJackUI(QMainWindow):
     """Represents the UI for the Black Jack game."""
