@@ -1,7 +1,7 @@
 from typing import List
-from card import Deck
-from player import Player, Bank
-from hand import Hand
+from src.card import Deck
+from src.player import Player, Bank
+from src.hand import Hand
 
 class BlackJackGame:
     """Represents the Black Jack game."""
@@ -11,7 +11,7 @@ class BlackJackGame:
         self.deck = Deck()
         self.players = players
         self.bank = Bank()
-        self.round_over = False
+        self.round_over = False 
 
     def start_round(self) -> None:
         """Starts a new round by dealing initial cards and placing bets."""
