@@ -1,5 +1,5 @@
 from typing import List
-from src.card import Card, Deck
+from card import Card
 
 
 class Hand:

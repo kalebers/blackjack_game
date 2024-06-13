@@ -1,7 +1,7 @@
 from typing import List
-from src.card import Deck
-from src.player import Player, Bank
-from src.hand import Hand
+from card import Deck
+from player import Player, Bank
+from hand import Hand
 
 class BlackJackGame:
     """Represents the Black Jack game."""
