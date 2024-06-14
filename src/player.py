@@ -1,4 +1,5 @@
 from hand import Hand
+from card import Deck
 
 class Player:
     """Represents a player in the Black Jack game."""
@@ -9,6 +10,7 @@ class Player:
         self.money = money
         self.hand = Hand()
         self.bet = 0
+        self.deck = Deck()  # Each player has their own deck
 
     def place_bet(self, amount: int) -> None:
         """
@@ -38,3 +40,4 @@ class Bank(Player):
     def __init__(self) -> None:
         """Initializes the bank with infinite money."""
         super().__init__(name="Bank", money=float('inf'))
+        self.deck = Deck()  # Bank has its own deck

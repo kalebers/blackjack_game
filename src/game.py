@@ -8,24 +8,24 @@ class BlackJackGame:
 
     def __init__(self, players: List[Player]) -> None:
         """Initializes the game with a list of players and a bank."""
-        self.deck = Deck()
         self.players = players
         self.bank = Bank()
-        self.round_over = False 
+        self.round_over = False
 
     def start_round(self) -> None:
         """Starts a new round by dealing initial cards and placing bets."""
-        self.deck = Deck()  # Reinitialize deck at the start of each round
         self.round_over = False
         for player in self.players:
+            player.deck = Deck()  # Each player gets a new deck
             player.hand = Hand()
             player.place_bet(int(input(f"{player.name}, place your bet: ")))
-            player.hand.add_card(self.deck.deal())
-            player.hand.add_card(self.deck.deal())
+            player.hand.add_card(player.deck.deal())
+            player.hand.add_card(player.deck.deal())
 
+        self.bank.deck = Deck()  # Bank gets a new deck
         self.bank.hand = Hand()
-        self.bank.hand.add_card(self.deck.deal())
-        self.bank.hand.add_card(self.deck.deal())
+        self.bank.hand.add_card(self.bank.deck.deal())
+        self.bank.hand.add_card(self.bank.deck.deal())
 
     def player_turn(self, player: Player) -> None:
         """Handles the turn logic for a player."""
@@ -34,12 +34,11 @@ class BlackJackGame:
             if player.hand.is_busted():
                 print(f"{player.name} busts!")
                 player.lose_bet()
-                self.round_over = True
                 return
 
             action = input(f"{player.name}, do you want to hit or stand? ").lower()
             if action == 'hit':
-                player.hand.add_card(self.deck.deal())
+                player.hand.add_card(player.deck.deal())
             elif action == 'stand':
                 break
             else:
@@ -49,7 +48,7 @@ class BlackJackGame:
         """Handles the turn logic for the bank."""
         print(f"Bank's hand: {self.bank.hand}")
         while self.bank.hand.calculate_value() < 17:
-            self.bank.hand.add_card(self.deck.deal())
+            self.bank.hand.add_card(self.bank.deck.deal())
             print(f"Bank's hand: {self.bank.hand}")
             if self.bank.hand.is_busted():
                 print("Bank busts!")
@@ -83,7 +82,5 @@ class BlackJackGame:
         self.start_round()
         for player in self.players:
             self.player_turn(player)
-            if self.round_over:
-                return
         self.bank_turn()
         self.determine_winner()
