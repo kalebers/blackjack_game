@@ -5,6 +5,7 @@
     - Support for multiplayers.
 - **Fixes**:
     - UI, game and player class fixes for multiplayer support.
+    - Game file fix that ensures that each player has a new deck on the beginning of each game
 
 # Version 0.1 released on **13 June 2024**
 
