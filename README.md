@@ -2,7 +2,7 @@
 
 - BlackJack game, under development.
 
-- To run the files, ensure that you have **poetry** installed to download all the right dependencies under the **pyproject.toml** file. 
+- To run the files, ensure that you have **poetry** installed to download all the right dependencies under the **pyproject.toml** file.
 
 - Run ```pip install poetry``` to install poetry in your machine, and then **inside of the blackjack proeject package**, run ```poetry install``` to install the right dependencies and right Python Version.
 

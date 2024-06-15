@@ -3,6 +3,7 @@ from card import Deck
 from player import Player, Bank
 from hand import Hand
 
+
 class BlackJackGame:
     """Represents the Black Jack game."""
 
@@ -10,13 +11,15 @@ class BlackJackGame:
         """Initializes the game with a list of players and a bank."""
         self.players = players
         self.bank = Bank()
-        self.round_over = False 
+        self.round_over = False
 
     def start_round(self) -> None:
         """Starts a new round by dealing initial cards and placing bets."""
         self.round_over = False
         for player in self.players:
-            player.deck = Deck()  # Reinitialize player's deck at the start of each round
+            player.deck = (
+                Deck()
+            )  # Reinitialize player's deck at the start of each round
             player.hand = Hand()
             player.place_bet(int(input(f"{player.name}, place your bet: ")))
             player.hand.add_card(player.deck.deal())
@@ -38,9 +41,9 @@ class BlackJackGame:
                 return
 
             action = input(f"{player.name}, do you want to hit or stand? ").lower()
-            if action == 'hit':
+            if action == "hit":
                 player.hand.add_card(player.deck.deal())
-            elif action == 'stand':
+            elif action == "stand":
                 break
             else:
                 print("Invalid action. Please choose 'hit' or 'stand'.")
