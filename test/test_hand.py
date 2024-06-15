@@ -50,12 +50,12 @@ def test_is_busted():
     hand.add_card(Card("Hearts", "10"))
     hand.add_card(Card("Spades", "10"))
     hand.add_card(Card("Clubs", "5"))
-    assert hand.is_busted() == True
+    assert hand.is_busted() is True
 
     hand = Hand()
     hand.add_card(Card("Hearts", "10"))
     hand.add_card(Card("Spades", "9"))
-    assert hand.is_busted() == False
+    assert hand.is_busted() is False
 
 
 def test_hand_str():

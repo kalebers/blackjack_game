@@ -1,8 +1,16 @@
 from PySide6.QtWidgets import (
-    QApplication, QMainWindow, QVBoxLayout, QPushButton, QLabel, QWidget, QLineEdit, QHBoxLayout
+    QApplication,
+    QMainWindow,
+    QVBoxLayout,
+    QPushButton,
+    QLabel,
+    QWidget,
+    QLineEdit,
+    QHBoxLayout,
 )
 from game import BlackJackGame
 from player import Player
+
 
 class BlackJackUI(QMainWindow):
     """Represents the UI for the Black Jack game."""
@@ -15,7 +23,7 @@ class BlackJackUI(QMainWindow):
 
     def initUI(self) -> None:
         """Initializes the UI components."""
-        self.setWindowTitle('Black Jack Game')
+        self.setWindowTitle("Black Jack Game")
         self.setGeometry(100, 100, 800, 600)
 
         self.central_widget = QWidget()
@@ -23,7 +31,7 @@ class BlackJackUI(QMainWindow):
 
         self.layout = QVBoxLayout()
 
-        self.info_label = QLabel('Welcome to Black Jack!')
+        self.info_label = QLabel("Welcome to Black Jack!")
         self.layout.addWidget(self.info_label)
 
         self.bet_layout = QHBoxLayout()
@@ -37,7 +45,7 @@ class BlackJackUI(QMainWindow):
 
         self.layout.addLayout(self.bet_layout)
 
-        self.start_button = QPushButton('Start Round')
+        self.start_button = QPushButton("Start Round")
         self.start_button.clicked.connect(self.start_round)
         self.layout.addWidget(self.start_button)
 
@@ -60,7 +68,7 @@ class BlackJackUI(QMainWindow):
         self.info_label.setText(info_text)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = QApplication([])
 
     players = [Player(name="Alice", money=100), Player(name="Bob", money=100)]
