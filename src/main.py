@@ -22,7 +22,7 @@ class BlackJackUI(QMainWindow):
         """Initializes the UI without game instance initially."""
         super().__init__()
         self.players = []
-        self.current_player_index = -1
+        self.current_player_index = -1  # Initialize here
         self.initUI()
 
     def initUI(self) -> None:
@@ -180,6 +180,8 @@ class BlackJackUI(QMainWindow):
             QMessageBox.information(self, "Bust", f"{player.name} busts!")
             player.lose_bet()
             self.next_player_turn()
+        else:
+            self.enable_player_actions()
 
     @Slot()
     def stand(self) -> None:
@@ -211,7 +213,20 @@ class BlackJackUI(QMainWindow):
                 and not player.hand.is_busted()
             ):
                 QMessageBox.information(self, "Winner", f"{player.name} wins!")
-        self.reset_game()
+        self.reset_game_prompt()
+
+    @Slot()
+    def reset_game_prompt(self) -> None:
+        """Prompts to reset the game."""
+        reply = QMessageBox.question(
+            self,
+            "Reset Game",
+            "Do you want to reset the game?",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No,
+        )
+        if reply == QMessageBox.Yes:
+            self.reset_game()
 
     @Slot()
     def reset_game(self) -> None:
