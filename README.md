@@ -14,3 +14,5 @@
 - Before commiting, the pre-commit will check the files in order to format, you will need to install flake8 by doing ```pip install flake8```.
 
 - You can check more about the pre-commit hooks on: [https://github.com/pre-commit/pre-commit-hooks].
+
+- To run the game, you can do the command ```python src/main.py``` or ```python ./src/main.py``` or simple run the ```main.py``` file on your IDE.
