@@ -19,67 +19,69 @@ class BlackJackUI(QMainWindow):
     """Represents the UI for the Black Jack game."""
 
     def __init__(self) -> None:
-        """Initializes the UI without game instance initially."""
+        """Initializes the UI components and the game state."""
         super().__init__()
         self.players = []
-        self.current_player_index = -1  # Initialize here
+        self.current_player_index = -1
         self.initUI()
 
     def initUI(self) -> None:
-        """Initializes the UI components."""
+        """Sets up the UI layout and components."""
         self.setWindowTitle("Black Jack Game")
         self.setGeometry(100, 100, 800, 600)
 
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
+        self.layout = QVBoxLayout(self.central_widget)
 
-        self.layout = QVBoxLayout()
-
+        # Information label to display messages to the user
         self.info_label = QLabel("Enter player details to start the game:")
         self.layout.addWidget(self.info_label)
 
+        # Form layout to enter player name and initial money
         self.player_form_layout = QFormLayout()
         self.player_name_input = QLineEdit()
         self.player_money_input = QLineEdit()
         self.player_form_layout.addRow("Player Name:", self.player_name_input)
         self.player_form_layout.addRow("Initial Money:", self.player_money_input)
-
         self.layout.addLayout(self.player_form_layout)
 
+        # Button to add a player
         self.add_player_button = QPushButton("Add Player")
         self.add_player_button.clicked.connect(self.add_player)
         self.layout.addWidget(self.add_player_button)
 
+        # Button to start the game
         self.start_game_button = QPushButton("Start Game")
         self.start_game_button.clicked.connect(self.start_game)
         self.layout.addWidget(self.start_game_button)
 
+        # Layout for betting inputs
         self.bet_layout = QHBoxLayout()
         self.bet_inputs = {}
 
+        # Button to start a round
         self.start_button = QPushButton("Start Round")
         self.start_button.clicked.connect(self.start_round)
-        self.start_button.setEnabled(False)
+        self.start_button.setEnabled(False)  # Initially disabled
         self.layout.addWidget(self.start_button)
 
+        # Layout for action buttons (hit and stand)
         self.action_layout = QHBoxLayout()
         self.hit_button = QPushButton("Hit")
         self.hit_button.clicked.connect(self.hit)
-        self.hit_button.setEnabled(False)
-
+        self.hit_button.setEnabled(False)  # Initially disabled
         self.stand_button = QPushButton("Stand")
         self.stand_button.clicked.connect(self.stand)
-        self.stand_button.setEnabled(False)
-
+        self.stand_button.setEnabled(False)  # Initially disabled
         self.action_layout.addWidget(self.hit_button)
         self.action_layout.addWidget(self.stand_button)
         self.layout.addLayout(self.action_layout)
 
+        # Button to reset the game
         self.reset_button = QPushButton("Reset Game")
         self.reset_button.clicked.connect(self.reset_game)
         self.layout.addWidget(self.reset_button)
-
-        self.central_widget.setLayout(self.layout)
 
     @Slot()
     def add_player(self) -> None:
@@ -100,11 +102,7 @@ class BlackJackUI(QMainWindow):
                     self.player_name_input.clear()
                     self.player_money_input.clear()
             else:
-                QMessageBox.warning(
-                    self,
-                    "Invalid Input",
-                    "Please enter a valid name and positive money amount.",
-                )
+                raise ValueError
         except ValueError:
             QMessageBox.warning(
                 self,
@@ -114,7 +112,7 @@ class BlackJackUI(QMainWindow):
 
     @Slot()
     def start_game(self) -> None:
-        """Starts the game with the added players."""
+        """Starts the game after players are added."""
         if not self.players:
             QMessageBox.warning(
                 self,
@@ -122,7 +120,6 @@ class BlackJackUI(QMainWindow):
                 "Please add at least one player before starting the game.",
             )
             return
-
         self.game = BlackJackGame(self.players)
         self.info_label.setText("Game started. Place your bets.")
         self.update_bet_layout()
@@ -131,18 +128,17 @@ class BlackJackUI(QMainWindow):
         self.start_game_button.setEnabled(False)
 
     def update_bet_layout(self) -> None:
-        """Updates the layout to include bet inputs for each player."""
+        """Updates the layout with betting inputs for each player."""
         for player in self.players:
             player_label = QLabel(f"{player.name}'s bet: ")
             player_input = QLineEdit()
             self.bet_inputs[player.name] = player_input
             self.bet_layout.addWidget(player_label)
             self.bet_layout.addWidget(player_input)
-
         self.layout.addLayout(self.bet_layout)
 
     def start_round(self) -> None:
-        """Starts a new round and updates the UI."""
+        """Starts a new round after bets are placed."""
         for player in self.players:
             try:
                 bet_amount = int(self.bet_inputs[player.name].text())
@@ -152,9 +148,8 @@ class BlackJackUI(QMainWindow):
                     self, "Invalid Bet", f"Invalid bet amount for {player.name}."
                 )
                 return
-
         self.game.start_round()
-        self.current_player_index = 0  # Reset player index at the start of the round
+        self.current_player_index = 0
         self.update_info()
         self.enable_player_actions()
 
@@ -180,8 +175,6 @@ class BlackJackUI(QMainWindow):
             QMessageBox.information(self, "Bust", f"{player.name} busts!")
             player.lose_bet()
             self.next_player_turn()
-        else:
-            self.enable_player_actions()
 
     @Slot()
     def stand(self) -> None:
@@ -217,7 +210,7 @@ class BlackJackUI(QMainWindow):
 
     @Slot()
     def reset_game_prompt(self) -> None:
-        """Prompts to reset the game."""
+        """Prompts the user to reset the game after a round."""
         reply = QMessageBox.question(
             self,
             "Reset Game",
@@ -230,7 +223,7 @@ class BlackJackUI(QMainWindow):
 
     @Slot()
     def reset_game(self) -> None:
-        """Resets the game to initial state."""
+        """Resets the game to the initial state."""
         self.players = []
         self.bet_inputs = {}
         self.info_label.setText("Enter player details to start the game:")
@@ -239,23 +232,22 @@ class BlackJackUI(QMainWindow):
         self.stand_button.setEnabled(False)
         self.add_player_button.setEnabled(True)
         self.start_game_button.setEnabled(True)
-
-        # Clear layout for bets
         for i in reversed(range(self.bet_layout.count())):
             widget = self.bet_layout.itemAt(i).widget()
-            if widget is not None:
+            if widget:
                 widget.deleteLater()
-
         self.update_info()
 
     def update_info(self) -> None:
         """Updates the information displayed in the UI."""
-        info_text = ""
-        if self.players:
-            for player in self.players:
-                info_text += f"{player.name}: {player.hand} - Money: ${player.money}\n"
-            if self.current_player_index >= len(self.game.players):
-                info_text += f"Bank: {self.game.bank.hand}\n"
+        info_text = "\n".join(
+            [
+                f"{player.name}: {player.hand} - Money: ${player.money}"
+                for player in self.players
+            ]
+        )
+        if self.current_player_index >= len(self.players):
+            info_text += f"\nBank: {self.game.bank.hand}"
         self.info_label.setText(info_text)
 
 
