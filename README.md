@@ -13,4 +13,4 @@
 
 - Before commiting, the pre-commit will check the files in order to format, you will need to install flake8 by doing ```pip install flake8```.
 
-- You can check more about the pre-commit on: [https://github.com/pre-commit/pre-commit-hooks].
+- You can check more about the pre-commit hooks on: [https://github.com/pre-commit/pre-commit-hooks].
