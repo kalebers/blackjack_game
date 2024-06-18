@@ -2,7 +2,7 @@ import pytest
 from PySide6.QtWidgets import QApplication
 from PySide6.QtCore import Qt
 
-from src.ui import BlackJackUI
+from src.main import BlackJackUI
 from src.game import BlackJackGame
 
 
@@ -31,6 +31,23 @@ def test_add_player(app):
     assert ui.info_label.text() == "Player John Doe added with $1000."
 
 
+def test_duplicate_player(app):
+    ui, qtbot = app
+
+    # Add the first player
+    qtbot.keyClicks(ui.player_name_input, "John Doe")
+    qtbot.keyClicks(ui.player_money_input, "1000")
+    qtbot.mouseClick(ui.add_player_button, Qt.LeftButton)
+
+    # Attempt to add the same player again
+    qtbot.keyClicks(ui.player_name_input, "John Doe")
+    qtbot.keyClicks(ui.player_money_input, "500")
+    qtbot.mouseClick(ui.add_player_button, Qt.LeftButton)
+
+    assert len(ui.players) == 1
+    assert ui.info_label.text() == "Player John Doe added with $1000."
+
+
 def test_start_game_without_players(app):
     ui, qtbot = app
 
@@ -55,6 +72,8 @@ def test_start_game_with_players(app):
     assert isinstance(ui.game, BlackJackGame)
     assert ui.start_button.isEnabled()
     assert ui.info_label.text() == "Game started. Place your bets."
+    assert not ui.add_player_button.isEnabled()
+    assert not ui.start_game_button.isEnabled()
 
 
 def test_start_round_with_valid_bets(app):
@@ -89,7 +108,8 @@ def test_start_round_with_invalid_bet(app):
     qtbot.mouseClick(ui.start_button, Qt.LeftButton)
 
     assert "Invalid bet amount for Bob." in ui.info_label.text()
-    assert not ui.game.players[0].bet
+    assert ui.hit_button.isEnabled() is False
+    assert ui.stand_button.isEnabled() is False
 
 
 def test_player_hits(app):
@@ -129,6 +149,27 @@ def test_player_stands(app):
     assert not ui.hit_button.isEnabled()
     assert not ui.stand_button.isEnabled()
     assert ui.current_player_index == 1  # Assumes only one player
+
+
+def test_reset_game(app):
+    ui, qtbot = app
+
+    # Add a player and start game
+    qtbot.keyClicks(ui.player_name_input, "Eve")
+    qtbot.keyClicks(ui.player_money_input, "2000")
+    qtbot.mouseClick(ui.add_player_button, Qt.LeftButton)
+    qtbot.mouseClick(ui.start_game_button, Qt.LeftButton)
+
+    # Reset the game
+    qtbot.mouseClick(ui.reset_button, Qt.LeftButton)
+
+    assert len(ui.players) == 0
+    assert ui.info_label.text() == "Enter player details to start the game."
+    assert ui.add_player_button.isEnabled()
+    assert ui.start_game_button.isEnabled()
+    assert not ui.start_button.isEnabled()
+    assert not ui.hit_button.isEnabled()
+    assert not ui.stand_button.isEnabled()
 
 
 if __name__ == "__main__":
