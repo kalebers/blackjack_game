@@ -22,6 +22,7 @@ class BlackJackUI(QMainWindow):
         """Initializes the UI without game instance initially."""
         super().__init__()
         self.players = []
+        self.current_player_index = -1
         self.initUI()
 
     def initUI(self) -> None:
@@ -74,6 +75,10 @@ class BlackJackUI(QMainWindow):
         self.action_layout.addWidget(self.stand_button)
         self.layout.addLayout(self.action_layout)
 
+        self.reset_button = QPushButton("Reset Game")
+        self.reset_button.clicked.connect(self.reset_game)
+        self.layout.addWidget(self.reset_button)
+
         self.central_widget.setLayout(self.layout)
 
     @Slot()
@@ -83,12 +88,17 @@ class BlackJackUI(QMainWindow):
         try:
             player_money = int(self.player_money_input.text())
             if player_name and player_money > 0:
-                self.players.append(Player(name=player_name, money=player_money))
-                self.info_label.setText(
-                    f"Player {player_name} added with ${player_money}."
-                )
-                self.player_name_input.clear()
-                self.player_money_input.clear()
+                if player_name in [player.name for player in self.players]:
+                    QMessageBox.warning(
+                        self, "Duplicate Name", "Player name already exists."
+                    )
+                else:
+                    self.players.append(Player(name=player_name, money=player_money))
+                    self.info_label.setText(
+                        f"Player {player_name} added with ${player_money}."
+                    )
+                    self.player_name_input.clear()
+                    self.player_money_input.clear()
             else:
                 QMessageBox.warning(
                     self,
@@ -117,6 +127,8 @@ class BlackJackUI(QMainWindow):
         self.info_label.setText("Game started. Place your bets.")
         self.update_bet_layout()
         self.start_button.setEnabled(True)
+        self.add_player_button.setEnabled(False)
+        self.start_game_button.setEnabled(False)
 
     def update_bet_layout(self) -> None:
         """Updates the layout to include bet inputs for each player."""
@@ -142,8 +154,8 @@ class BlackJackUI(QMainWindow):
                 return
 
         self.game.start_round()
+        self.current_player_index = 0  # Reset player index at the start of the round
         self.update_info()
-        self.current_player_index = 0
         self.enable_player_actions()
 
     def enable_player_actions(self) -> None:
@@ -193,13 +205,42 @@ class BlackJackUI(QMainWindow):
         """Determines the winner and updates the UI."""
         self.game.determine_winner()
         self.update_info()
+        for player in self.game.players:
+            if (
+                player.hand.calculate_value() > self.game.bank.hand.calculate_value()
+                and not player.hand.is_busted()
+            ):
+                QMessageBox.information(self, "Winner", f"{player.name} wins!")
+        self.reset_game()
+
+    @Slot()
+    def reset_game(self) -> None:
+        """Resets the game to initial state."""
+        self.players = []
+        self.bet_inputs = {}
+        self.info_label.setText("Enter player details to start the game:")
+        self.start_button.setEnabled(False)
+        self.hit_button.setEnabled(False)
+        self.stand_button.setEnabled(False)
+        self.add_player_button.setEnabled(True)
+        self.start_game_button.setEnabled(True)
+
+        # Clear layout for bets
+        for i in reversed(range(self.bet_layout.count())):
+            widget = self.bet_layout.itemAt(i).widget()
+            if widget is not None:
+                widget.deleteLater()
+
+        self.update_info()
 
     def update_info(self) -> None:
         """Updates the information displayed in the UI."""
         info_text = ""
-        for player in self.game.players:
-            info_text += f"{player.name}: {player.hand} - Money: ${player.money}\n"
-        info_text += f"Bank: {self.game.bank.hand}\n"
+        if self.players:
+            for player in self.players:
+                info_text += f"{player.name}: {player.hand} - Money: ${player.money}\n"
+            if self.current_player_index >= len(self.game.players):
+                info_text += f"Bank: {self.game.bank.hand}\n"
         self.info_label.setText(info_text)
 
 
