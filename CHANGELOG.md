@@ -1,5 +1,13 @@
 # **Ongoing Version**
-- Version 0.3 released on **17 June 2024**
+- Version 0.4 released on **19 June 2024**
+
+- **Additions**:
+    - ui_handler and ui classes to divide main code structure for maintainability.
+
+- **Fixes**:
+    - UI fixed: updates the player hand and hides one of the bank cards.
+
+# Version 0.3 released on **17 June 2024**
 
 - **Additions**:
     - New working prototype of UI
