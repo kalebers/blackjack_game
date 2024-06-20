@@ -1,5 +1,12 @@
 # **Ongoing Version**
-- Version 0.4 released on **19 June 2024**
+- Version 0.5 released on **20 June 2024**
+
+- **Fixes**:
+    - UI player list.
+    - Change of execution function on main.
+    - Player hand value on display.
+
+# Version 0.4 released on **19 June 2024**
 
 - **Additions**:
     - ui_handler and ui classes to divide main code structure for maintainability.
