@@ -17,18 +17,18 @@
 # Version 0.3 released on **17 June 2024**
 
 - **Additions**:
-    - New working prototype of UI
+    - New working prototype of UI.
 
 - **Fixes**:
     - Player starting hand with 2 cards
-    - Table deck fixed
+    - Table deck fixed.
 
 # Version 0.2 released on **14 June 2024**
 - **Additions**:
     - Support for multiplayers.
 - **Fixes**:
     - UI, game and player class fixes for multiplayer support.
-    - Game file fix that ensures that each player has a new deck on the beginning of each game
+    - Game file fix that ensures that each player has a new deck on the beginning of each game.
 
 # Version 0.1 released on **13 June 2024**
 
