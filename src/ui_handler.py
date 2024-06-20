@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QMessageBox, QLabel, QLineEdit
+from PySide6.QtWidgets import QMessageBox, QListWidgetItem, QLabel, QLineEdit
 from PySide6.QtCore import Slot
 from game import BlackJackGame
 from player import Player
@@ -23,6 +23,7 @@ class BlackJackUIHandlers:
                     )
                     self.player_name_input.clear()
                     self.player_money_input.clear()
+                    self.update_player_list()
             else:
                 raise ValueError
         except ValueError:
@@ -31,6 +32,13 @@ class BlackJackUIHandlers:
                 "Invalid Input",
                 "Please enter a valid name and positive money amount.",
             )
+
+    def update_player_list(self) -> None:
+        """Updates the player list displayed in the UI."""
+        self.player_list.clear()
+        for player in self.players:
+            item = QListWidgetItem(f"{player.name}: ${player.money}")
+            self.player_list.addItem(item)
 
     @Slot()
     def start_game(self) -> None:
@@ -109,6 +117,9 @@ class BlackJackUIHandlers:
     def stand(self) -> None:
         """Handles the stand action for the current player."""
         self.disable_player_actions()
+        player = self.game.players[self.current_player_index]
+        if player.hand.calculate_value() > self.game.bank.hand.calculate_value():
+            QMessageBox.information(self, "Win", f"{player.name} wins!")
         self.next_player_turn()
 
     def next_player_turn(self) -> None:
@@ -135,6 +146,8 @@ class BlackJackUIHandlers:
                 and not player.hand.is_busted()
             ):
                 QMessageBox.information(self, "Winner", f"{player.name} wins!")
+            elif player.hand.calculate_value() <= self.game.bank.hand.calculate_value():
+                QMessageBox.information(self, "Lose", f"{player.name} loses!")
         self.reset_game_prompt()
 
     @Slot()
@@ -152,10 +165,10 @@ class BlackJackUIHandlers:
 
     @Slot()
     def reset_game(self) -> None:
-        """Resets the game to the initial state."""
-        self.players = []
-        self.bet_inputs = {}
-        self.info_label.setText("Enter player details to start the game:")
+        """Resets the game to its initial state."""
+        self.players.clear()
+        self.current_player_index = -1
+        self.info_label.setText("Enter player details to start the game.")
         self.start_button.setEnabled(False)
         self.hit_button.setEnabled(False)
         self.stand_button.setEnabled(False)

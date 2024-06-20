@@ -34,5 +34,5 @@ class Hand:
         """Returns a string representation of the hand."""
         return (
             ", ".join(str(card) for card in self.cards)
-            # + f" (value: {self.calculate_value()})"
+            + f" (value: {self.calculate_value()})"
         )

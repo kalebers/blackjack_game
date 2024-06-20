@@ -6,4 +6,4 @@ if __name__ == "__main__":
 
     ui = BlackJackUI()
     ui.show()
-    app.exec_()
+    app.exec()

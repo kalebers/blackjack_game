@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QHBoxLayout,
     QFormLayout,
+    QListWidget,
 )
 
 from ui_handler import BlackJackUIHandlers
@@ -49,6 +50,10 @@ class BlackJackUI(QMainWindow, BlackJackUIHandlers):
         self.add_player_button = QPushButton("Add Player")
         self.add_player_button.clicked.connect(self.add_player)
         self.layout.addWidget(self.add_player_button)
+
+        # List to display added players
+        self.player_list = QListWidget()
+        self.layout.addWidget(self.player_list)
 
         # Button to start the game
         self.start_game_button = QPushButton("Start Game")
