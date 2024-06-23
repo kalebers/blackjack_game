@@ -140,14 +140,24 @@ class BlackJackUIHandlers:
         """Determines the winner and updates the UI."""
         self.game.determine_winner()
         self.update_info(True)
+
         for player in self.game.players:
-            if (
-                player.hand.calculate_value() > self.game.bank.hand.calculate_value()
-                and not player.hand.is_busted()
-            ):
-                QMessageBox.information(self, "Winner", f"{player.name} wins!")
-            elif player.hand.calculate_value() <= self.game.bank.hand.calculate_value():
-                QMessageBox.information(self, "Lose", f"{player.name} loses!")
+            player_value = player.hand.calculate_value()
+            bank_value = self.game.bank.hand.calculate_value()
+
+            if player.hand.is_busted():
+                message = f"{player.name} busts!"
+            elif self.game.bank.hand.is_busted():
+                message = f"{player.name} wins! Bank busts!"
+            elif player_value > bank_value:
+                message = f"{player.name} wins!"
+            elif player_value < bank_value:
+                message = f"{player.name} loses!"
+            else:
+                message = f"{player.name} pushes!"  # when both values are equal
+
+            QMessageBox.information(self, "Result", message)
+
         self.reset_game_prompt()
 
     @Slot()
@@ -185,16 +195,28 @@ class BlackJackUIHandlers:
             widget = self.bet_layout.itemAt(i).widget()
             if widget is not None:
                 widget.deleteLater()
+        self.bet_inputs.clear()
+        self.update_player_list()
 
-    def update_info(self, show_all_bank_cards: bool = False) -> None:
-        """Updates the information label with the current game state."""
-        info_text = "Current game state:\n"
-        for player in self.players:
-            info_text += f"{player.name}: {player.hand} (Bet: {player.bet})\n"
-        bank_hand = (
-            str(self.game.bank.hand)
-            if show_all_bank_cards
-            else str(self.game.bank.hand.cards[0])
-        )
-        info_text += f"Bank: {bank_hand}"
+    def update_info(self, include_bank: bool = False) -> None:
+        """Updates the information displayed in the UI."""
+        info_text = ""
+        for player in self.game.players:
+            player_info = f"<b>{player.name}</b> Hand: {', '.join(str(card) for card in player.hand.cards)}"
+            player_info += f" (Value: {player.hand.calculate_value()})\n"
+            info_text += player_info
+
+        if include_bank:
+            bank_info = f"Bank Hand: {', '.join(str(card) for card in self.game.bank.hand.cards)}"
+            bank_info += f" (Value: {self.game.bank.hand.calculate_value()})\n"
+            info_text += bank_info
+
         self.info_label.setText(info_text)
+
+    def hide_player_box(self) -> None:
+        """Hides the player input box after adding players."""
+        self.player_name_input.setVisible(False)
+        self.player_money_input.setVisible(False)
+        self.player_name_label.setVisible(False)
+        self.player_money_label.setVisible(False)
+        self.add_player_button.setVisible(False)
