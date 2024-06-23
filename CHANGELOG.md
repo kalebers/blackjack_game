@@ -1,5 +1,12 @@
 # **Ongoing Version**
-- Version 0.5 released on **20 June 2024**
+- Version 0.6 released on **23 June 2024**
+
+- **Fixes**:
+    - Bold player name turn (who is in the current turn).
+    - ⁠⁠Skip bank turn if all players have been over 21.
+    - Creation of function in order to update current money and current player.
+
+# Version 0.5 released on **20 June 2024**
 
 - **Fixes**:
     - UI player list.

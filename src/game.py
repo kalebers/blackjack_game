@@ -34,6 +34,8 @@ class BlackJackGame:
 
     def bank_turn(self) -> None:
         """Handles the turn logic for the bank."""
+        if all(player.hand.is_busted() for player in self.players):
+            return  # Skip bank turn if all players have busted
         while self.bank.hand.calculate_value() < 17:
             self.bank.hand.add_card(self.deck.deal())
 
@@ -48,6 +50,7 @@ class BlackJackGame:
         bank_value = self.bank.hand.calculate_value()
         for player in self.players:
             if player.hand.is_busted():
+                player.lose_bet()
                 continue
             player_value = player.hand.calculate_value()
             if player_value > bank_value:
