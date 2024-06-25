@@ -1,5 +1,11 @@
 # **Ongoing Version**
-- Version 0.6 released on **23 June 2024**
+- Version 0.7 released on **25 June 2024**
+
+- **Fixes**:
+    - Remove bet and player money from status.
+    - Money bet loss after losing a turn.
+
+# Version 0.6 released on **23 June 2024**
 
 - **Fixes**:
     - Bold player name turn (who is in the current turn).

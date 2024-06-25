@@ -23,16 +23,20 @@ class Player:
         self.bet = amount
 
     def win_bet(self) -> None:
-        """Increases the player's money by the bet amount."""
-        self.money += self.bet
+        """Increases the player's money by twice the bet amount (winnings and original bet)."""
+        self.money += 2 * self.bet
 
     def lose_bet(self) -> None:
-        """Decreases the player's money by the bet amount."""
+        """The player's money is already reduced by the bet amount when the bet is placed, so nothing to do here."""
         self.money -= self.bet
 
     def push_bet(self) -> None:
-        """Player neither wins nor loses money."""
-        pass
+        """Player neither wins nor loses money (returns the bet amount)."""
+        self.money += self.bet
+
+    def reset_bet(self) -> None:
+        """Resets the player's bet to zero."""
+        self.bet = 0
 
 
 class Bank(Player):
