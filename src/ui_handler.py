@@ -202,26 +202,28 @@ class BlackJackUIHandlers:
 
     def update_info(self, show_all_bank_cards: bool = False) -> None:
         """Updates the information label with the current game state."""
-        info_text = "Current game state:\n"
-        for i, player in enumerate(self.players):
-            if i == self.current_player_index:
-                player_info = f"<b>{player.name}</b> Hand: {player.hand})"
-            else:
-                player_info = f"{player.name}: {player.hand})"
-            info_text += player_info
+        info_text = "<html><body>"
+        for index, player in enumerate(self.game.players):
+            player_hand = ", ".join(map(str, player.hand.cards))
+            player_value = player.hand.calculate_value()
+            bold_name = f"<b>{player.name}</b>"
+            current_indicator = (
+                "<span style='color:red'> (Current Player)</span>"
+                if index == self.current_player_index
+                else ""
+            )
+            info_text += f"{bold_name}{current_indicator}<br>{player_hand} (Value: {player_value})<br><br>"
 
-        if show_all_bank_cards:
-            bank_hand = str(self.game.bank.hand)
-        else:
-            bank_hand = f"{self.game.bank.hand.cards[0]} (Hidden Card)"
+        bank_hand = (
+            ", ".join(map(str, self.game.bank.hand.cards[:1])) + ", [Hidden]"
+            if not show_all_bank_cards
+            else ", ".join(map(str, self.game.bank.hand.cards))
+        )
+        bank_value = (
+            self.game.bank.hand.calculate_value() if show_all_bank_cards else "?"
+        )
+        info_text += f"<b>Bank</b><br>{bank_hand} (Value: {bank_value})"
 
-        info_text += f"Bank: {bank_hand}"
+        info_text += "</body></html>"
+
         self.info_label.setText(info_text)
-
-    def hide_player_box(self) -> None:
-        """Hides the player input box after adding players."""
-        self.player_name_input.setVisible(False)
-        self.player_money_input.setVisible(False)
-        self.player_name_label.setVisible(False)
-        self.player_money_label.setVisible(False)
-        self.add_player_button.setVisible(False)
