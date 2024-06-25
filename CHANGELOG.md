@@ -4,6 +4,7 @@
 - **Fixes**:
     - Remove bet and player money from status.
     - Money bet loss after losing a turn.
+    - Improved how current player is shown.
 
 # Version 0.6 released on **23 June 2024**
 
