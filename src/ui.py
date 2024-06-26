@@ -22,6 +22,10 @@ class BlackJackUI(QMainWindow, BlackJackUIHandlers):
         self.players = []
         self.current_player_index = -1
         self.initUI()
+        self.player_init()
+        self.start_stop_buttons()
+        self.action_buttons()
+        self.reset_button()
 
     def initUI(self) -> None:
         """Sets up the UI layout and components."""
@@ -36,6 +40,7 @@ class BlackJackUI(QMainWindow, BlackJackUIHandlers):
         self.info_label = QLabel("Enter player details to start the game:")
         self.layout.addWidget(self.info_label)
 
+    def player_init(self) -> None:
         # Form layout to enter player name and initial money
         self.player_form_layout = QFormLayout()
         self.player_name_input = QLineEdit()
@@ -55,6 +60,7 @@ class BlackJackUI(QMainWindow, BlackJackUIHandlers):
         self.player_list = QListWidget()
         self.layout.addWidget(self.player_list)
 
+    def start_stop_buttons(self) -> None:
         # Button to start the game
         self.start_game_button = QPushButton("Start Game")
         self.start_game_button.clicked.connect(self.start_game)
@@ -70,6 +76,7 @@ class BlackJackUI(QMainWindow, BlackJackUIHandlers):
         self.start_button.setEnabled(False)  # Initially disabled
         self.layout.addWidget(self.start_button)
 
+    def action_buttons(self) -> None:
         # Layout for action buttons (hit and stand)
         self.action_layout = QHBoxLayout()
         self.hit_button = QPushButton("Hit")
@@ -82,6 +89,7 @@ class BlackJackUI(QMainWindow, BlackJackUIHandlers):
         self.action_layout.addWidget(self.stand_button)
         self.layout.addLayout(self.action_layout)
 
+    def reset_button(self) -> None:
         # Button to reset the game
         self.reset_button = QPushButton("Reset Game")
         self.reset_button.clicked.connect(self.reset_game)

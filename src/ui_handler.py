@@ -132,6 +132,10 @@ class BlackJackUIHandlers:
 
     def bank_turn(self) -> None:
         """Handles the bank's turn."""
+        # Skip bank turn if all players are busted
+        if all(player.hand.is_busted() for player in self.game.players):
+            self.determine_winner()
+            return
         self.game.bank_turn()
         self.update_info(True)  # Show all bank cards after bank's turn
         self.determine_winner()

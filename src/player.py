@@ -21,8 +21,8 @@ class Player:
         self.bet = amount
 
     def win_bet(self) -> None:
-        """Increases the player's money by twice the bet amount (winnings and original bet)."""
-        self.money += 2 * self.bet
+        """Increases the player's money by the bet amount (original bet)."""
+        self.money += self.bet
 
     def lose_bet(self) -> None:
         """The player's money is already reduced by the bet amount when the bet is placed, so nothing to do here."""

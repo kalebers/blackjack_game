@@ -1,5 +1,12 @@
 # **Ongoing Version**
-- Version 0.7 released on **25 June 2024**
+- Version 0.8 released on **26 June 2024**
+
+- **Fixes**:
+    - UI class clean for better maintenance.
+    - Player class fix on money loss when player loses the bet.
+    - ui_handler class addition for bank turn to ensure that when the player(s) go over 21, the bank turn is skipped.
+
+# Version 0.7 released on **25 June 2024**
 
 - **Fixes**:
     - Remove bet and player money from status.
