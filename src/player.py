@@ -30,7 +30,7 @@ class Player:
 
     def push_bet(self) -> None:
         """Player neither wins nor loses money (returns the bet amount)."""
-        self.money += self.bet
+        pass
 
     def reset_bet(self) -> None:
         """Resets the player's bet to zero."""
