@@ -111,7 +111,6 @@ class BlackJackUIHandlers:
         if player.hand.is_busted():
             self.disable_player_actions()
             QMessageBox.information(self, "Bust", f"{player.name} busts!")
-            player.lose_bet()
             self.next_player_turn()
 
     @Slot()
@@ -224,7 +223,9 @@ class BlackJackUIHandlers:
             else ", ".join(map(str, self.game.bank.hand.cards))
         )
         bank_value = (
-            self.game.bank.hand.calculate_value() if show_all_bank_cards else "?"
+            self.game.bank.hand.calculate_value()
+            if show_all_bank_cards
+            else self.game.bank.hand.cards[0].value()
         )
         info_text += f"<b>Bank</b><br>{bank_hand} (Value: {bank_value})"
 
