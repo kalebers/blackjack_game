@@ -1,6 +1,6 @@
 # BlackJack Game
 
-- BlackJack game under development. Originated as a side project to learn more about PySide.
+- BlackJack game under development. Originated as a side project to learn more about game development and PySide.
 
 - To run the files, ensure that you have **poetry** installed to download all the right dependencies under the **pyproject.toml** file.
 
