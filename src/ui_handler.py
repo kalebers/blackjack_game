@@ -1,3 +1,4 @@
+# ui_handler.py
 from PySide6.QtWidgets import QMessageBox, QListWidgetItem, QLabel, QLineEdit
 from PySide6.QtCore import Slot
 from game import BlackJackGame
@@ -85,6 +86,17 @@ class BlackJackUIHandlers:
                     self, "Invalid Bet", f"Invalid bet amount for {player.name}."
                 )
                 return
+
+        # Check if there are enough cards to continue the game
+        if len(self.game.deck.cards) < (2 * (len(self.players) + 1)):
+            QMessageBox.warning(
+                self,
+                "Not Enough Cards",
+                "Not enough cards to continue the game. The game will be reset.",
+            )
+            self.reset_game()
+            return
+
         self.game.start_round()
         self.current_player_index = 0
         self.update_info()
@@ -111,6 +123,7 @@ class BlackJackUIHandlers:
         if player.hand.is_busted():
             self.disable_player_actions()
             QMessageBox.information(self, "Bust", f"{player.name} busts!")
+            player.lose_bet()
             self.next_player_turn()
 
     @Slot()
@@ -135,6 +148,7 @@ class BlackJackUIHandlers:
         if all(player.hand.is_busted() for player in self.game.players):
             self.determine_winner()
             return
+
         self.game.bank_turn()
         self.update_info(True)  # Show all bank cards after bank's turn
         self.determine_winner()
@@ -217,16 +231,15 @@ class BlackJackUIHandlers:
             )
             info_text += f"{bold_name}{current_indicator}<br>{player_hand} (Value: {player_value})<br><br>"
 
-        bank_hand = (
-            ", ".join(map(str, self.game.bank.hand.cards[:1])) + ", [Hidden]"
-            if not show_all_bank_cards
-            else ", ".join(map(str, self.game.bank.hand.cards))
-        )
-        bank_value = (
-            self.game.bank.hand.calculate_value()
-            if show_all_bank_cards
-            else self.game.bank.hand.cards[0].value()
-        )
+        if show_all_bank_cards:
+            bank_hand = ", ".join(map(str, self.game.bank.hand.cards))
+            bank_value = self.game.bank.hand.calculate_value()
+        else:
+            bank_hand = (
+                ", ".join(map(str, self.game.bank.hand.cards[:1])) + ", [Hidden]"
+            )
+            bank_value = self.game.bank.hand.cards[0].value()
+
         info_text += f"<b>Bank</b><br>{bank_hand} (Value: {bank_value})"
 
         info_text += "</body></html>"
