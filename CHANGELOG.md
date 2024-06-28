@@ -1,4 +1,9 @@
 # **Ongoing Version**
+# Version 0.9 released on **28 June 2024**
+
+- **Fixrd**:
+    - UI warning if deck cards are not enough to continue the game.
+
 - Version 0.8 released on **26 June 2024**
 
 - **Fixes**:
