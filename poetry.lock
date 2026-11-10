@@ -38,31 +38,15 @@ files = [
 ]
 
 [[package]]
-name = "exceptiongroup"
-version = "1.2.1"
-description = "Backport of PEP 654 (exception groups)"
-optional = false
-python-versions = ">=3.7"
-groups = ["main"]
-markers = "python_version == \"3.10\""
-files = [
-    {file = "exceptiongroup-1.2.1-py3-none-any.whl", hash = "sha256:5258b9ed329c5bbdd31a309f53cbfb0b155341807f6ff7606a1e801a891b29ad"},
-    {file = "exceptiongroup-1.2.1.tar.gz", hash = "sha256:a4785e48b045528f5bfe627b6ad554ff32def154f42372786903b7abcfe1aa16"},
-]
-
-[package.extras]
-test = ["pytest (>=6)"]
-
-[[package]]
 name = "filelock"
-version = "4.1.0"
+version = "4.2.10"
 description = "A platform independent file lock."
 optional = false
-python-versions = ">=3.10"
+python-versions = ">=3.11"
 groups = ["main"]
 files = [
-    {file = "filelock-4.1.0-py3-none-any.whl", hash = "sha256:2ce9818e3e2d8f284c1a964414447ef148d42a5fd5e2a477a7118e574b293ec1"},
-    {file = "filelock-4.1.0.tar.gz", hash = "sha256:ad7f724afef953e731b1cc39bcd3a09166d72ed7fcdf29e6e88b1c3235c6715d"},
+    {file = "filelock-4.2.10-py3-none-any.whl", hash = "sha256:9479aaeb4db20b5a53e3da28493edd24720b66b8a0b84030aa56ccdf243d6857"},
+    {file = "filelock-4.2.10.tar.gz", hash = "sha256:fcc3c0cb8bfe7f4b3bb0e231c04b15dbad068cb3c2515f343d8fde4dce93bd5d"},
 ]
 
 [[package]]
@@ -246,12 +230,10 @@ files = [
 
 [package.dependencies]
 colorama = {version = ">=0.4", markers = "sys_platform == \"win32\""}
-exceptiongroup = {version = ">=1", markers = "python_version < \"3.11\""}
 iniconfig = ">=1.0.1"
 packaging = ">=22"
 pluggy = ">=1.5,<2"
 pygments = ">=2.7.2"
-tomli = {version = ">=1", markers = "python_version < \"3.11\""}
 
 [package.extras]
 dev = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "requests", "setuptools", "xmlschema"]
@@ -347,32 +329,6 @@ files = [
 ]
 
 [[package]]
-name = "tomli"
-version = "2.0.1"
-description = "A lil' TOML parser"
-optional = false
-python-versions = ">=3.7"
-groups = ["main"]
-markers = "python_version == \"3.10\""
-files = [
-    {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
-    {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
-]
-
-[[package]]
-name = "typing-extensions"
-version = "4.16.0"
-description = "Backported and Experimental Type Hints for Python 3.9+"
-optional = false
-python-versions = ">=3.9"
-groups = ["main"]
-markers = "python_version == \"3.10\""
-files = [
-    {file = "typing_extensions-4.16.0-py3-none-any.whl", hash = "sha256:481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"},
-    {file = "typing_extensions-4.16.0.tar.gz", hash = "sha256:dc983d19a509c94dba722ee6abd33940f7c05a89e243c47e907eb4db6f1a43e5"},
-]
-
-[[package]]
 name = "virtualenv"
 version = "21.14.13"
 description = "Virtual Python Environment builder"
@@ -390,9 +346,8 @@ filelock = {version = ">=3.24.2,<5", markers = "python_version >= \"3.10\""}
 packaging = ">=26.3"
 platformdirs = ">=4.4,<5"
 python-discovery = ">=1.6.1"
-typing-extensions = {version = ">=4.16", markers = "python_version < \"3.11\""}
 
 [metadata]
 lock-version = "2.1"
-python-versions = ">=3.10,<3.13"
-content-hash = "9e7bc73f6ba315f32f657a151dad2166a70f8bca4eea260816c27199f8cd35d1"
+python-versions = ">=3.11,<3.13"
+content-hash = "1bcb7410f467017ca2e4d1abf5d626b31fd8ad293f7a34312a09ab5ee0c57b3c"
